@@ -16,6 +16,7 @@
 <style>
     #canvas-ejemplo {
         width: 100%;
+        border: 1px solid black; // Le agregamos un borde al canvas
     }
 </style>
 
@@ -23,5 +24,9 @@
     window.onload = function() {
     canvas = document.getElementById('canvas-ejemplo');
     context = canvas.getContext("2d");
+
+    context.moveTo(50, 100); // Desde
+    context.lineTo(400, 200); // Hasta
+    context.stroke(); // Dibujar
 }; 
 </script>
