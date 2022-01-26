@@ -22,16 +22,11 @@
 
 <script>
     window.onload = function() {
-    canvas = document.getElementById('canvas-ejemplo');
-    context = canvas.getContext("2d");
-    
-    context.rect(50, 50, 200, 150);
-    context.lineWidth = 10;
-    context.strokeStyle = "red";
-    context.stroke();
+        var canvas = document.getElementById("canvas-ejemplo");
+    var context = canvas.getContext("2d");
 
-    // relleno
-    context.fillStyle = "#5e9860"; // Tambien se pueden usar valores RGB
-    context.fill();
+    context.font = '42px Arial'; // Le agregamos formato
+    context.fillStyle = 'red'; // Le damos un color de la misma manera que hacemos con las figuras
+    context.fillText("Hola Mundo", 200, 100);
 }; 
 </script>

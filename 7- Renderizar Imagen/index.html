@@ -22,16 +22,13 @@
 
 <script>
     window.onload = function() {
-    canvas = document.getElementById('canvas-ejemplo');
-    context = canvas.getContext("2d");
+        var canvas = document.getElementById("canvas-ejemplo");
+    var context = canvas.getContext("2d");
     
-    context.rect(50, 50, 200, 150);
-    context.lineWidth = 10;
-    context.strokeStyle = "red";
-    context.stroke();
-
-    // relleno
-    context.fillStyle = "#5e9860"; // Tambien se pueden usar valores RGB
-    context.fill();
+    var img = new Image();
+    img.src = 'https://www.hola.com/imagenes/estar-bien/20201104178485/consejos-gatos-para-principiantes/0-884-859/gatito-m.jpg?filter=w500';
+    img.onload = function() {
+        context.drawImage(img, 50, 50, 100, 100);
+    };
 }; 
 </script>

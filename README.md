@@ -132,3 +132,209 @@ context.fill();
 
 ![picture 6](images/79599582fd539b99ef6461a116d941c26ffe6fe4945486d0367fe7d9a17d4f1b.png)  
 
+### Dibujar multiples figuras
+
+Para dibujar multiples figuras, se usa la funcion `beginPath()` antes de que se dibuje cada figura.
+
+```javascript
+// Cuadrado
+context.beginPath();
+context.rect(50, 50, 300, 200);
+context.fillStyle = "#1775b7";
+context.fill();
+
+// Circulo
+context.beginPath();
+context.arc(300, 200, 100, 0, 2 * Math.PI);
+context.fillStyle = "#de4646";
+context.fill(); 
+```
+
+![picture 1](images/9755b9487fbd2c0487bb91190749b2e9885a15bacc57658b68b5fe6f9577b76f.png)  
+
+### Renderizar Texto
+
+Para renderizar una linea de texto, se puede usar la siguiente funcion:
+
+```javascript
+context.fillText("Hola Mundo", 200, 100); 
+```
+
+![picture 2](images/e150af59ca3976924b312bff1694e43f593af6bf512c32be66e2277b76674035.png)  
+
+De estas 3 letras, la que tendrá la posicion mas baja en el canvas sera la letra B
+
+```javascript
+context.fillText("A", 0, 10);
+context.fillText("B", 10, 200);
+context.fillText("C", 200, 30);
+```
+
+Se puede tambien definir estilos de fuentes
+
+```javascript
+context.font = '42px Arial';
+context.fillStyle = 'red'; // Le damos color de la misma manera que hacemos con las figuras
+context.fillText("Hola Mundo", 200, 100); 
+```
+
+![picture 4](images/649d32d8ee98982617fbab9766cedf030d0cf6fb3cb57ef41b40bfa0229491da.png)  
+ 
+### Agregar imagenes
+
+Primero debemos crear el objeto de imagen en JS, estableciendo la fuente de la misma. 
+
+```javascript
+var img = new Image();
+img.src = 'https://www.hola.com/imagenes/estar-bien/20201104178485/consejos-gatos-para-principiantes/0-884-859/gatito-m.jpg?filter=w500'; 
+```
+
+Y luego, para dibujar la imagen en el contexto, usamos la funcion `drawImage()`
+
+```javascript
+context.drawImage(img, x, y, width, height);
+```
+
+Img es el objeto que creamos recien en el paso anterior. Width y Heigth son opcionales. 
+
+Si se juntan ambas funciones detalladas, se da como resultado lo siguiente: 
+
+```javascript
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+    
+var img = new Image();
+img.src = 'https://www.hola.com/imagenes/estar-bien/20201104178485/consejos-gatos-para-principiante0-884-859/gatito-m.jpg?filter=w500';
+img.onload = function() {
+    context.drawImage(img, 50, 50, 100, 100);
+};
+```
+
+![picture 5](images/37d20b77a470c32a92e367ec37ffde3afec428d30f357258af8a5bbf8e3ebbf5.png)  
+
+Si quiero renderizar mi imagen muy escalada, es decir, mucho mas grande que su tamaño original, canvas posee un sistema que suaviza las imperfecciones que puede tener una imagen ante este efecto de escalado de más. Esto se puede deshabilitar usando el siguiente comando:
+
+```javascript
+context.imageSmoothingEnabled = false;
+```
+
+### Animaciones
+
+Ahora mismo cuando dibujamos sobre nuestro canvas, ese dibujo permanece estatico, para que el mismo tenga una animacion, debemos limpiar este canvas y dibujar de vuelta el mismo elemento en su nueva posicion. Para crear una animacion, debemos continuamente dibujar el recorrido en nuestro canvas. 
+
+Para dibujar de manera seguida, debemos usar la funcion `setInterval()` o `setTimeout()` que son usados para llamar a una funcion cada X milisegundos. 
+
+Dibujemos en este caso una **barra de carga rectangular roja**
+
+Por ejemplo, si dibujemos un rectangulo en el canvas
+
+```javascript
+var canvas = document.getElementById("canvas");
+var context = canvas.getContext("2d");
+var x = 0;
+var y = 100;
+
+function draw() {
+  context.beginPath();
+  context.rect(x, y, 100, 100);
+  context.fillStyle="red";
+  context.fill();
+}
+```
+
+La funcion `draw()` dibujará un rectangulo en el punto (100;100) de cualquier canvas en donde sea llamado. 
+Ahora debemos incrementar el valor de X del punto en donde fue dibujado el rectangulo en un principio cada vez que la funcion `draw()` sea llamada, sumando siempre +10 en cada llamado. 
+
+Ante cierta condicion, donde X sea mayor a 600, resetamos su valor a -100 para que la animacion se repita en loop.
+
+```javascript
+function draw() {
+  context.beginPath();
+  context.rect(x, y, 100, 100);
+  context.fillStyle = "red";
+  context.fill();
+
+  x += 10;
+  if (x >= 600) {
+    x = -100
+  }
+}
+```
+
+Ahora llamamos a la funcion `draw()` cada 50 milisegundos con la siguiente funcion:
+
+```javascript
+setInterval(draw, 50);
+```
+
+Dejando como total este codigo:
+
+```javascript
+var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+    var x = 0;
+    var y = 100;
+    
+    function draw() {
+        context.beginPath();
+        context.rect(x, y, 100, 100);
+        context.fillStyle="red";
+        context.fill();
+
+        x += 10;
+        if (x >= 600) {
+            x = -100;
+        }
+    }
+    setInterval(draw, 50);
+```
+
+Si queremos que sea un simple rectangulo que se mueve de una punta a la otra (sin continuidad en si mismo como una barra de carga) agregamos la funcion `context.clearRect(0, 0, 600, 400);` para resetear la animacion. (Codigo completo en `9- Animacion Cuadrado`)
+
+Resumiendo todo en pasos, quedaria algo asi:
+* Limpiar el canvas, de lo contrario, todas las versiones anteriores de las figuras permaneceran en la misma como pasa en el caso de la barra (Ejemplo 8)
+* Dibujar los objetos en su posicion
+* Actualizar las posiciones de los elementos basados en la logica
+* Repetir el proceso
+
+En la carpeta `10- Rebote pelota` tenemos un ejemplo de una logica un poco mas compleja. 
+
+## Finalmente, hagamos el juego!
+
+La accion de borrar el canvas para dibujar los objetos en su nueva posicion se llama **game loop** en videojuegos. Es el responsable de mover objetos, crear animaciones, etc.., necesita ser ejecutado cada vez que sucede algo en el **game canvas**.
+
+Como se vio anteriormente, se uso la funcion `setInterval()` para repetir una funcion cada X veces, este metodo no es performante, para esto Javascript provee la funcion `window.requestAnimationFrame()` que le avisa al navegador cada vez que se desea hacer un redraw. 
+
+Por ejemplo, nuestra animacion de `Animacion Cuadrado Numero 9` quedaria asi:
+
+```javascript
+ var canvas = document.getElementById("canvas");
+    var context = canvas.getContext("2d");
+    var x = 0;
+    var y = 100;
+    
+    function draw() {
+        context.clearRect(0, 0, 600, 400);
+        
+        context.beginPath();
+        context.rect(x, y, 100, 100);
+        context.fillStyle="red";
+        context.fill();
+
+        x += 10;
+        if (x >= 600) {
+            x = -100;
+        }
+        window.requestAnimationFrame(draw);
+    }
+    draw();
+```
+
+Para comenzar con el loop, se debe llamar a la funcion `draw()` apenas termina de renderizarse la pagina. Esta nueva funcion hace que la animacion se vea mucho mas suave. Se puede ver el ejemplo en `11- Animacion Cuadrado New`
+
+### Frame Rate
+
+Cada actualizacion del canvas se llama **frame**, la frecuencia de re-dibujados se mide en **frames por segundo (FPS)**. Se obtendran FPS mas altos en dispositivos mas nuevos, lo que dará a animaciones mucho mas suaves. 
+
+La funcion `window.requestAnimationFrame()` corre a 60 Frames por Segundo (60 FPS). Y la funcion anterior, `setInterval()`, si se usaba con 50 miliseconds, resultaba en una ejecucion de 20 FPS. 
+

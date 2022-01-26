@@ -22,16 +22,24 @@
 
 <script>
     window.onload = function() {
-    canvas = document.getElementById('canvas-ejemplo');
-    context = canvas.getContext("2d");
-    
-    context.rect(50, 50, 200, 150);
-    context.lineWidth = 10;
-    context.strokeStyle = "red";
-    context.stroke();
+        var canvas = document.getElementById("canvas-ejemplo");
+    var context = canvas.getContext("2d");
+    var size= 50;
+    var step = 10;
 
-    // relleno
-    context.fillStyle = "#5e9860"; // Tambien se pueden usar valores RGB
-    context.fill();
+    function draw() {
+        context.clearRect(0, 0, 600, 400);
+        
+        context.beginPath();
+        context.arc(300, 200, size, 0, 2*Math.PI);
+        context.fillStyle="red";
+        context.fill();
+
+        size += step;
+        if (size >= 150 || size <= 50) {
+            step *= -1;
+        }
+    }
+    setInterval(draw, 100);
 }; 
 </script>
