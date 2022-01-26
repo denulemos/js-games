@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <canvas height="400" width="600" id="canvas-ejemplo">
+        Este navegador no soporta canvas
+    </canvas>
+</body>
+</html>
+
+<style>
+    #canvas-ejemplo {
+        width: 100%;
+        border: 1px solid black; // Le agregamos un borde al canvas
+    }
+</style>
+
+<script>
+    window.onload = function() {
+    canvas = document.getElementById('canvas-ejemplo');
+    context = canvas.getContext("2d");
+    
+    // Medio circulo
+    context.arc(150, 150, 100, 0, 1 * Math.PI);
+    context.stroke();
+    
+    //Circulo
+    context.arc(300, 200, 100, 0, 2 * Math.PI);
+    context.stroke();  
+}; 
+</script>

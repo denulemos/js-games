@@ -48,6 +48,9 @@ window.onload = function() {
 ```
 
 ### Dibujando una linea
+
+![picture 3](images/aec7afa8a34166886d66f3c638c566c718a2d4f36014b42c728b3030d5a1a748.png)  
+
 Ahora que se tiene el canvas preparado, vamos a probar dibujar una linea recta del punto (50,100) al punto (400,200)
 
 Hay 3 funciones.`moveTo()`, `lineTo()` y `stroke()`. 
@@ -64,6 +67,8 @@ context.stroke();
 
 ### Dibujar un Rectangulo
 
+![picture 2](images/6a55d960db25134c5309a45b3fc66bdde400ce80fcea579eef659162e0c7e1f3.png)  
+
 Se puede dibujar un rectangulo con la siguiente funcion:
 
 `context.rect(x, y, width, height);`
@@ -76,4 +81,54 @@ context.stroke();
 ```
 
 ### Dibujar un Circulo
+
+Para dibujar un circulo necesitaremos estas dos lineas
+
+```javascript
+context.arc(centerX, centerY, radius, startingAngle, endingAngle, counterclockwise);  
+```
+
+* **centerX** y **centerY** son el centro.
+* **Radius** es el radio del circulo
+* **startingAngle** y **endingAngle** son el comienzo y fin del circulo en radianes.
+* **counterClockwise** es opcional, y especifica si el circulo se va a dibujar en sentido del reloj o no. Por defecto su valor es `false`, es decir, se hace en sentido del reloj.
+
+El siguiente codigo dibujara un medio circulo
+
+```javascript
+context.arc(150, 150, 100, 0, 1 * Math.PI);
+context.stroke();
+```
+
+Y el siguiente codigo dibujara un circulo entero
+
+```javascript
+context.arc(300, 200, 100, 0, 2 * Math.PI);
+context.stroke();  
+```
+
+![picture 4](images/ffb5f4f2abac73c6fa9ce7556c74c7506250ef04a1ab4333cd738e48c5c71870.png)  
+
+### Estilos
+
+Se puede definir el estilo del dibujo con la funcion `strokeStyle`
+
+```javascript
+    context.rect(50, 50, 200, 150);
+    context.lineWidth = 10;
+    context.strokeStyle = "red";
+    context.stroke();
+```
+
+![picture 5](images/038dbee486e5af4f0e2116bf0e578f62f5d5da9762bc0660acad1c334c872878.png)  
+
+
+Si queremos rellenarlo usamos la funcion `fillStyle` de la siguiente manera:
+
+```javascript
+context.fillStyle = "green";
+context.fill();
+```
+
+![picture 6](images/79599582fd539b99ef6461a116d941c26ffe6fe4945486d0367fe7d9a17d4f1b.png)  
 
