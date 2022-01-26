@@ -338,3 +338,78 @@ Cada actualizacion del canvas se llama **frame**, la frecuencia de re-dibujados 
 
 La funcion `window.requestAnimationFrame()` corre a 60 Frames por Segundo (60 FPS). Y la funcion anterior, `setInterval()`, si se usaba con 50 miliseconds, resultaba en una ejecucion de 20 FPS. 
 
+Aun asi, en cada dispositivo, la funcion `requestanimationFrame()` va a darnos distintos valores de FPS, no siempre corre a 60, mas cuando el dispositivo es viejo. 
+
+Para ver un ejemplo de una animacion con FPS dinamicos, hay un ejemplo en `12 - Animacion FPS`
+
+### Deteccion de Coaliciones
+
+Por ejemplo, queremos que el rectangulo pare cuando toque el borde del canvas. La manera es chequeando la posicion de ambos elementos y fijandose si estan colicionando. 
+
+Una manera de chequear esto, es comparando la posicion de elemento con la posicion del borde, que es el width del canvas en si
+
+```javascript
+if (x >= 600-100) {
+  speed = 0;
+} 
+```
+Se resta 100 del width del canvas porque queremos que el rectangulo pare cuando su costado derecho toque el borde del canvas. Cuando esto se detecta, se setea la velocidad en cero para que el rectangulo pare. 
+
+Podemos ver un ejemplo del rectangulo chocando con el borde del canvas y volviendo para atras y asi sucesivamente en `13- Coalicion` (Roto por el momento)
+
+### Input del Usuario
+
+Se necesita el Input del usuario para controlar el juego. Vamos a hacerlo por paso:
+
+Agreguemos los botones en el HTML 
+
+```javascript
+<div align="center">
+    <button id="up">↑</button><br />
+    <button id="left">←</button>
+    <button id="down">↓</button>
+    <button id="right">→</button>
+</div>
+```
+Con sus respectivos estilos
+
+```css
+ button {
+     width:50px;
+     height: 30px;
+     margin-bottom: 5px;
+ }
+```
+
+Agregamos la referencia a estos botones en JS, por ejemplo, con el boton derecho
+
+```javascript
+let right = document.getElementById('right'); 
+```
+
+Vamos a hacerlo de tal manera que, mientras el usuario apreta el boton derecho, mueva el rectangulo para el lado derecho, y cuando ya no esté apretando mas el boton, el mismo se detenga. `dir` nos funcionara como variable de referencia. 
+
+```javascript
+right.onmousedown = function() {
+  dir = 1;
+}
+right.onmouseup = function() {
+  dir = 0;
+}  
+```
+
+Las funciones `onmousedown` y `onmouseup` son usados para los botones fisicos de un raton, en caso de pantallas tactiles, hay que usar las funciones `ontouchstart` y `ontouchend`
+
+```javascript
+right.ontouchstart = function() {
+  dir = 1;
+}
+right.ontouchend = function() {
+  dir = 0;
+} 
+```
+
+Podemos ver un ejemplo del manejo entero de botones en `14- Controles`, donde no tiene coalicion con los costados del canvas. 
+
+![picture 6](images/2a2a7a15d1476fc5b487822114f0ac9e7489a590a948d4c3fa220347cfb29e4e.png)  
+
